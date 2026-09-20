@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}CSi | CoFre Sistemas Informáticos{% endblock %}</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============================================================
+     Semana 10: la navbar ya no está escrita aquí directamente.
+     Se reutiliza mediante la instrucción include de Jinja, apuntando a
+     templates/components/navbar.html.
+     ============================================================ -->
+{% include "components/navbar.html" %}
+
+<!-- ============================================================
+     Bloque de contenido dinámico: cada página hija lo sobrescribe
+     usando "extends base.html" y definiendo su propio bloque "content".
+     ============================================================ -->
+<main>
+<!-- Semana 11: mensajes flash (ej. "Producto registrado correctamente")
+     generados desde app.py tras procesar un formulario válido. -->
+<div class="container mt-3">
+{% with mensajes = get_flashed_messages(with_categories=true) %}
+{% if mensajes %}
+{% for categoria, mensaje in mensajes %}
+<div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+{{ mensaje }}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+</div>
+{% block content %}{% endblock %}
+</main>
+
+<!-- ============================================================
+     Semana 10: footer reutilizable, incluido igual que la navbar.
+     ============================================================ -->
+{% include "components/footer.html" %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

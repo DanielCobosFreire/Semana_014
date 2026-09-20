@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar sesión | CSi{% endblock %}
+
+{% block content %}
+<section class="seccion">
+<div class="container">
+<h2 class="mb-4 text-center">Iniciar sesión</h2>
+
+<div class="row justify-content-center">
+<div class="col-lg-5">
+<div class="card shadow">
+<div class="card-body text-dark">
+
+<!-- Semana 14: formulario Flask-WTF (LoginForm). El propio
+     form.validate_on_submit() en app.py comprueba usuario + contraseña
+     con check_password_hash(); aquí solo se valida que los campos no
+     estén vacíos. -->
+<form method="POST" novalidate>
+{{ form.hidden_tag() }}
+
+<div class="mb-3">
+{{ form.usuario.label(class="form-label") }}
+{{ form.usuario(class=("form-control is-invalid" if form.usuario.errors else "form-control"), autofocus=true) }}
+{% for error in form.usuario.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.password.label(class="form-label") }}
+{{ form.password(class=("form-control is-invalid" if form.password.errors else "form-control")) }}
+{% for error in form.password.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="d-grid">
+{{ form.submit(class="btn btn-info") }}
+</div>
+</form>
+
+<p class="text-center mt-3 mb-0">
+¿No tienes una cuenta?
+<a href="{{ url_for('registro') }}">Regístrate aquí</a>.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+{% endblock %}

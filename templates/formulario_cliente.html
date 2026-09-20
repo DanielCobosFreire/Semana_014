@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar Cliente' if indice is not none else 'Nuevo Cliente' }} | CSi{% endblock %}
+
+{% block content %}
+<section class="seccion">
+<div class="container">
+<h2 class="mb-4">{{ 'Editar Cliente' if indice is not none else 'Nuevo Cliente' }}</h2>
+
+<div class="row justify-content-center">
+<div class="col-lg-6">
+<div class="card shadow">
+<div class="card-body text-dark">
+
+<!-- Semana 11: formulario Flask-WTF. form.hidden_tag() incluye el token CSRF. -->
+<form method="POST" novalidate>
+{{ form.hidden_tag() }}
+
+<div class="mb-3">
+{{ form.nombre.label(class="form-label") }}
+{{ form.nombre(class=("form-control is-invalid" if form.nombre.errors else "form-control")) }}
+{% for error in form.nombre.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.empresa.label(class="form-label") }}
+{{ form.empresa(class=("form-control is-invalid" if form.empresa.errors else "form-control")) }}
+{% for error in form.empresa.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.correo.label(class="form-label") }}
+{{ form.correo(class=("form-control is-invalid" if form.correo.errors else "form-control"), type="email") }}
+{% for error in form.correo.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.telefono.label(class="form-label") }}
+{{ form.telefono(class=("form-control is-invalid" if form.telefono.errors else "form-control")) }}
+{% for error in form.telefono.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3 form-check">
+{{ form.activo(class="form-check-input") }}
+{{ form.activo.label(class="form-check-label") }}
+</div>
+
+<div class="d-flex gap-2">
+{{ form.submit(class="btn btn-info flex-grow-1") }}
+<a href="{{ url_for('clientes') }}" class="btn btn-outline-secondary">Cancelar</a>
+</div>
+</form>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar Factura' if indice is not none else 'Nueva Factura' }} | CSi{% endblock %}
+
+{% block content %}
+<section class="seccion">
+<div class="container">
+<h2 class="mb-4">{{ 'Editar Factura' if indice is not none else 'Nueva Factura' }}</h2>
+
+<div class="row justify-content-center">
+<div class="col-lg-6">
+<div class="card shadow">
+<div class="card-body text-dark">
+
+<!-- Semana 11: formulario Flask-WTF. form.hidden_tag() incluye el token CSRF. -->
+<form method="POST" novalidate>
+{{ form.hidden_tag() }}
+
+<div class="mb-3">
+{{ form.numero.label(class="form-label") }}
+{{ form.numero(class=("form-control is-invalid" if form.numero.errors else "form-control"), placeholder="F-001") }}
+{% for error in form.numero.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.cliente.label(class="form-label") }}
+{{ form.cliente(class=("form-control is-invalid" if form.cliente.errors else "form-control")) }}
+{% for error in form.cliente.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.fecha.label(class="form-label") }}
+{{ form.fecha(class=("form-control is-invalid" if form.fecha.errors else "form-control"), placeholder="2026-08-01") }}
+{% for error in form.fecha.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.total.label(class="form-label") }}
+{{ form.total(class=("form-control is-invalid" if form.total.errors else "form-control"), step="0.01") }}
+{% for error in form.total.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="mb-3">
+{{ form.estado.label(class="form-label") }}
+{{ form.estado(class=("form-select is-invalid" if form.estado.errors else "form-select")) }}
+{% for error in form.estado.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+</div>
+
+<div class="d-flex gap-2">
+{{ form.submit(class="btn btn-info flex-grow-1") }}
+<a href="{{ url_for('facturacion') }}" class="btn btn-outline-secondary">Cancelar</a>
+</div>
+</form>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+{% endblock %}

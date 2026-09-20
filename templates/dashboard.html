@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CSi{% endblock %}
+
+{% block content %}
+<section class="seccion">
+<div class="container">
+
+<!-- Semana 14: página protegida con @login_required. Solo llega aquí
+     quien tenga una sesión iniciada; current_user la expone Flask-Login
+     automáticamente en el contexto de la plantilla. -->
+<h2 class="mb-1">Panel de administración</h2>
+<p class="text-light mb-5">
+Sesión iniciada como <strong>{{ current_user.usuario }}</strong>.
+</p>
+
+<div class="row g-4">
+
+<div class="col-md-6 col-lg-3">
+<div class="card h-100 shadow text-center">
+<div class="card-body text-dark">
+<h5 class="card-title">📦 Productos</h5>
+<p class="card-text">Listar, agregar, modificar y eliminar productos (PostgreSQL).</p>
+<a href="{{ url_for('productos') }}" class="btn btn-info w-100">Ir al módulo</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-3">
+<div class="card h-100 shadow text-center">
+<div class="card-body text-dark">
+<h5 class="card-title">🧑‍🤝‍🧑 Clientes</h5>
+<p class="card-text">Gestión de clientes atendidos por CSi.</p>
+<a href="{{ url_for('clientes') }}" class="btn btn-info w-100">Ir al módulo</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-3">
+<div class="card h-100 shadow text-center">
+<div class="card-body text-dark">
+<h5 class="card-title">🚚 Proveedores</h5>
+<p class="card-text">Catálogo de proveedores registrados.</p>
+<a href="{{ url_for('proveedores') }}" class="btn btn-info w-100">Ir al módulo</a>
+</div>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-3">
+<div class="card h-100 shadow text-center">
+<div class="card-body text-dark">
+<h5 class="card-title">🧾 Facturación</h5>
+<p class="card-text">Facturas emitidas por CSi.</p>
+<a href="{{ url_for('facturacion') }}" class="btn btn-info w-100">Ir al módulo</a>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="mt-5">
+<a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Cerrar sesión</a>
+</div>
+
+</div>
+</section>
+{% endblock %}

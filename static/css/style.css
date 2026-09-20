@@ -1,0 +1,53 @@
+/* style.css
+   CSi - CoFre Sistemas Informáticos
+   Semana 9: extraído del <style> embebido en index.html hacia static/css,
+   siguiendo la organización de recursos requerida por el proyecto Flask. */
+
+:root{
+  --azul:#050d1a;
+  --azul2:#0f2744;
+  --cian:#00c8ff;
+  --texto:#f0f4f8;
+}
+
+body{
+  background:var(--azul);
+  color:var(--texto);
+  font-family:Segoe UI,sans-serif;
+}
+
+.hero{
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(135deg,var(--azul),var(--azul2));
+}
+
+.card{
+  transition:.3s
+}
+
+.card:hover{
+  transform:translateY(-5px)
+}
+
+.seccion{
+  padding:80px 0
+}
+
+footer{
+  background:#030a14;
+  padding:20px
+}
+
+.icono-servicio{
+  font-size:2rem;
+  margin-bottom:.5rem
+}
+
+@media(max-width:768px){
+  .hero h1{
+    font-size:2rem;
+  }
+}

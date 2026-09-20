@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Productos | CSi{% endblock %}
+
+{% block content %}
+<section class="seccion">
+<div class="container">
+<div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+<h2 class="mb-0">Módulo de Productos</h2>
+<!-- Semana 11: enlace a la vista de formulario (Flask-WTF) para registrar un producto -->
+<a href="{{ url_for('formulario_producto') }}" class="btn btn-info">+ Nuevo Producto</a>
+</div>
+<p class="text-light mb-4">
+Listado de productos y servicios ofrecidos por CSi.
+<!-- Semana 13: los datos ya vienen de PostgreSQL (SELECT con JOIN hacia proveedores), no de una lista de Python. -->
+</p>
+
+<div class="table-responsive">
+<table class="table table-dark table-striped align-middle">
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Categoría</th>
+<th>Precio</th>
+<th>Disponibilidad</th>
+<th>Proveedor</th>
+<th>Acciones</th>
+</tr>
+</thead>
+<tbody>
+{% for producto in productos %}
+<tr>
+<td>{{ producto.nombre }}</td>
+<!-- Semana 10: filtro |upper aplicado a un valor recorrido con el bucle for -->
+<td><span class="badge bg-info text-dark">{{ producto.categoria|upper }}</span></td>
+<td>${{ '%.2f'|format(producto.precio) }}</td>
+<td>
+<!-- Semana 10: condicional if / elif / else según el
+     estado del dato "stock" (None = servicio, 0 = agotado, >0 = disponible) -->
+{% if producto.stock is none %}
+<span class="badge bg-secondary">Servicio</span>
+{% elif producto.stock > 0 %}
+<span class="badge bg-success">Disponible ({{ producto.stock }})</span>
+{% else %}
+<span class="badge bg-danger">Agotado</span>
+{% endif %}
+</td>
+<td>
+<!-- Semana 13: nombre del proveedor obtenido mediante JOIN con la
+     tabla proveedores a través de la clave foránea id_proveedor -->
+{% if producto.proveedor_nombre %}
+{{ producto.proveedor_nombre }}
+{% else %}
+<span class="text-muted fst-italic">Sin proveedor</span>
+{% endif %}
+</td>
+<td class="text-nowrap">
+<!-- Semana 13: se enlaza con id_producto, la clave primaria real en PostgreSQL -->
+<a href="{{ url_for('formulario_producto', producto_id=producto.id_producto) }}" class="btn btn-outline-light btn-sm">Editar</a>
+<button type="button" class="btn btn-outline-danger btn-sm"
+        data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminarProducto"
+        data-producto-id="{{ producto.id_producto }}"
+        data-producto-nombre="{{ producto.nombre }}">
+Eliminar
+</button>
+</td>
+</tr>
+{% else %}
+<tr>
+<td colspan="6" class="text-center text-muted">No hay productos registrados por el momento.</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+</div>
+</section>
+
+<!-- ============================================================
+     Semana 13: modal Bootstrap de confirmación antes de eliminar un
+     producto (DELETE en PostgreSQL). El botón "Eliminar" de cada fila
+     llena este modal vía JS con el id y el nombre del producto elegido;
+     al confirmar, se envía un POST a /productos/eliminar/<id>.
+     ============================================================ -->
+<div class="modal fade" id="modalConfirmarEliminarProducto" tabindex="-1"
+     aria-labelledby="modalConfirmarEliminarProductoLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content text-dark">
+<div class="modal-header">
+<h5 class="modal-title" id="modalConfirmarEliminarProductoLabel">Confirmar eliminación</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+</div>
+<div class="modal-body">
+<p>¿Está seguro de que desea eliminar el producto
+<strong id="nombreProductoAEliminar"></strong>? Esta acción no se puede deshacer.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+<form id="formEliminarProducto" method="POST" action="">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button type="submit" class="btn btn-danger">Sí, eliminar</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+// Semana 13: al abrir el modal, se toma el id y el nombre del producto
+// desde los atributos data-* del botón "Eliminar" que lo disparó, y se
+// ajusta dinámicamente la acción del formulario antes de enviarlo.
+document.getElementById('modalConfirmarEliminarProducto').addEventListener('show.bs.modal', function (evento) {
+  const boton = evento.relatedTarget;
+  const productoId = boton.getAttribute('data-producto-id');
+  const productoNombre = boton.getAttribute('data-producto-nombre');
+
+  document.getElementById('nombreProductoAEliminar').textContent = productoNombre;
+  document.getElementById('formEliminarProducto').action = '/productos/eliminar/' + productoId;
+});
+</script>
+{% endblock %}
+

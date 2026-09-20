@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes | CSi{% endblock %}
+
+{% block content %}
+<section class="seccion">
+<div class="container">
+<div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+<h2 class="mb-0">Módulo de Clientes</h2>
+<!-- Semana 11: enlace a la vista de formulario (Flask-WTF) para registrar un cliente -->
+<a href="{{ url_for('formulario_cliente') }}" class="btn btn-info">+ Nuevo Cliente</a>
+</div>
+<p class="text-light mb-4">Clientes atendidos por CSi. Datos de ejemplo, sin conexión a base de datos aún.</p>
+
+<div class="row">
+{% for cliente in clientes %}
+<div class="col-md-4 mb-4">
+<div class="card h-100 shadow">
+<div class="card-body text-dark">
+<!-- Semana 10: filtro |upper sobre un valor recorrido con el bucle for -->
+<h5 class="card-title">{{ cliente.nombre|upper }}</h5>
+<h6 class="card-subtitle mb-2 text-muted">{{ cliente.empresa }}</h6>
+<p class="card-text mb-1">📧 {{ cliente.correo }}</p>
+<p class="card-text mb-2">📞 {{ cliente.telefono }}</p>
+<!-- Semana 10: condicional según el estado del dato "activo" -->
+{% if cliente.activo %}
+<span class="badge bg-success">Cliente activo</span>
+{% else %}
+<span class="badge bg-secondary">Cliente inactivo</span>
+{% endif %}
+<div class="mt-3">
+<a href="{{ url_for('formulario_cliente', indice=loop.index0) }}" class="btn btn-outline-primary btn-sm">Editar</a>
+</div>
+</div>
+</div>
+</div>
+{% else %}
+<div class="col-12">
+<p class="text-center text-light">No hay clientes registrados por el momento.</p>
+</div>
+{% endfor %}
+</div>
+
+</div>
+</section>
+{% endblock %}

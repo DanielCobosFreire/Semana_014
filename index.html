@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSi | CoFre Sistemas Informáticos</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+:root{
+--azul:#050d1a;
+--azul2:#0f2744;
+--cian:#00c8ff;
+--texto:#f0f4f8;
+}
+body{background:var(--azul);color:var(--texto);font-family:Segoe UI,sans-serif;}
+.hero{min-height:80vh;display:flex;align-items:center;text-align:center;background:linear-gradient(135deg,var(--azul),var(--azul2));}
+.card{transition:.3s}
+.card:hover{transform:translateY(-5px)}
+.seccion{padding:80px 0}
+footer{background:#030a14;padding:20px}
+.icono-servicio{font-size:2rem;margin-bottom:.5rem}
+@media(max-width:768px){
+.hero h1{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     PLANTILLA BASE (equivalente a base.html en una futura versión Flask)
+     Este archivo completo representa la plantilla "padre". Las secciones
+     marcadas más abajo como PARTIAL serían includes/blocks independientes
+     y la sección marcada como CONTENT DINÁMICO sería el {% block content %}
+     que cada página hija (ej. inicio.html, servicios.html) sobrescribiría.
+     ===================================================================== -->
+
+<!-- ============================
+     PARTIAL: partials/navbar.html
+     {% include 'partials/navbar.html' %}
+     ============================ -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<div class="container">
+<a class="navbar-brand" href="#inicio">CSi</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+<li class="nav-item"><a class="nav-link" href="#quienes">Quiénes Somos</a></li>
+<li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+<li class="nav-item"><a class="nav-link" href="#solicitudes">Solicitudes</a></li>
+<li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<!-- FIN PARTIAL: partials/navbar.html -->
+
+<!-- ============================
+     PARTIAL: partials/header.html (hero / encabezado principal)
+     {% include 'partials/header.html' %}
+     ============================ -->
+<header id="inicio" class="hero">
+<div class="container">
+<h1 class="display-4 fw-bold">CSi - CoFre Sistemas Informáticos</h1>
+<p class="lead">Consultoría tecnológica, desarrollo web, soporte TI y transformación digital.</p>
+<a href="#servicios" class="btn btn-info btn-lg m-2">Nuestros Servicios</a>
+<a href="#contacto" class="btn btn-outline-light btn-lg m-2">Contáctanos</a>
+
+<div class="row text-center mt-5">
+<div class="col-md-4 p-3"><h3>100%</h3><p>Compromiso</p></div>
+<div class="col-md-4 p-3"><h3>24/7</h3><p>Soporte</p></div>
+<div class="col-md-4 p-3"><h3>IT</h3><p>Innovación</p></div>
+</div>
+</div>
+</header>
+<!-- FIN PARTIAL: partials/header.html -->
+
+<!-- =====================================================================
+     BLOQUE DE CONTENIDO DINÁMICO
+     En Flask esto sería el {% block content %} ... {% endblock %} definido
+     por cada página hija que extiende base.html (ej. {% extends "base.html" %})
+     ===================================================================== -->
+<main>
+
+<section id="quienes" class="seccion">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-md-6">
+<img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c" class="img-fluid rounded shadow" alt="Equipo">
+</div>
+<div class="col-md-6">
+<h2>Quiénes Somos</h2>
+<article>
+<p>CSi es una consultora especializada en tecnologías de la información que brinda soluciones innovadoras para empresas y emprendedores.</p>
+<p>Nuestro objetivo es optimizar procesos mediante herramientas digitales modernas, seguras y escalables.</p>
+</article>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Sección de Servicios: contenido 100% dinámico.
+     Las tarjetas ya NO están escritas a mano en el HTML; se generan desde
+     un arreglo de objetos en script.js (equivalente a un {% for servicio in servicios %}
+     que recorrería datos provenientes de una futura base de datos). -->
+<section id="servicios" class="seccion bg-dark">
+<div class="container">
+<h2 class="text-center mb-5">Nuestros Servicios</h2>
+
+<div class="row" id="contenedorServicios">
+<!-- Las tarjetas de servicio se insertan aquí dinámicamente vía JavaScript -->
+</div>
+
+</div>
+</section>
+
+<section id="solicitudes" class="seccion bg-dark">
+<div class="container">
+<h2 class="text-center mb-2">Registro de Solicitudes de Servicio</h2>
+<p class="text-center text-light mb-5">Registra, visualiza y gestiona solicitudes de clientes en tiempo real, sin recargar la página.</p>
+
+<div class="row justify-content-center mb-4">
+<div class="col-lg-8">
+<div class="card shadow">
+<div class="card-body text-dark">
+<h5 class="card-title mb-3">Nueva Solicitud</h5>
+
+<form id="formSolicitud" novalidate>
+<div class="row">
+<div class="col-md-4 mb-3">
+<label for="nombreCliente" class="form-label">Nombre</label>
+<input type="text" class="form-control" id="nombreCliente" placeholder="Ej. Juan Pérez">
+</div>
+<div class="col-md-4 mb-3">
+<label for="categoriaServicio" class="form-label">Categoría</label>
+<select class="form-select" id="categoriaServicio">
+<option value="" selected disabled>Seleccione...</option>
+<option value="Desarrollo Web">Desarrollo Web</option>
+<option value="Consultoría IT">Consultoría IT</option>
+<option value="Soporte Técnico">Soporte Técnico</option>
+</select>
+</div>
+<div class="col-md-4 mb-3">
+<label for="descripcionServicio" class="form-label">Descripción</label>
+<input type="text" class="form-control" id="descripcionServicio" placeholder="Detalle de la solicitud">
+</div>
+</div>
+
+<div id="mensajeValidacion" class="alert d-none" role="alert"></div>
+
+<!-- Botón con spinner Bootstrap: simula un proceso de registro (ej. envío a servidor) -->
+<button type="submit" class="btn btn-info w-100" id="btnRegistrar">
+<span class="spinner-border spinner-border-sm d-none me-2" id="spinnerRegistrar" role="status" aria-hidden="true"></span>
+<span id="textoBtnRegistrar">Registrar Solicitud</span>
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Lista de solicitudes: respaldada por un arreglo de objetos en JS
+     (equivalente a un {% for solicitud in solicitudes %}). Muestra un
+     mensaje de estado condicional cuando el arreglo está vacío. -->
+<div class="row justify-content-center">
+<div class="col-lg-8">
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h5 class="mb-0">Solicitudes Registradas</h5>
+<span class="badge bg-info fs-6">Total: <span id="contadorSolicitudes">0</span></span>
+</div>
+
+<ul id="listaSolicitudes" class="list-group">
+</ul>
+</div>
+</div>
+
+<!-- ============================
+     Modal Bootstrap: confirmación de eliminación de solicitud
+     Se abre al pulsar "Eliminar" en cualquier registro de la lista.
+     ============================ -->
+<div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-labelledby="modalConfirmarEliminarLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content text-dark">
+<div class="modal-header">
+<h5 class="modal-title" id="modalConfirmarEliminarLabel">Confirmar eliminación</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+</div>
+<div class="modal-body">
+<p>¿Está seguro de que desea eliminar la siguiente solicitud?</p>
+<p class="mb-1">
+<strong id="modalNombreSolicitud"></strong>
+<span id="modalCategoriaSolicitud" class="badge bg-secondary ms-2"></span>
+</p>
+<p class="text-muted mb-0" id="modalDescripcionSolicitud"></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+<button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Sí, eliminar</button>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<section class="seccion">
+<div class="container">
+<div class="row">
+<div class="col-lg-8">
+<section id="contacto">
+<h2>Contáctanos</h2>
+
+<form>
+<div class="mb-3">
+<label class="form-label">Nombre</label>
+<input type="text" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Correo Electrónico</label>
+<input type="email" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Asunto</label>
+<input type="text" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Mensaje</label>
+<textarea rows="5" class="form-control"></textarea>
+</div>
+
+<button class="btn btn-primary">Enviar Mensaje</button>
+</form>
+</section>
+</div>
+
+<aside class="col-lg-4">
+<div class="card">
+<div class="card-body text-dark">
+<h4>¿Por qué elegirnos?</h4>
+<ul>
+<li>Experiencia profesional.</li>
+<li>Soluciones escalables.</li>
+<li>Atención personalizada.</li>
+<li>Soporte continuo.</li>
+</ul>
+
+<a href="mailto:contacto@csi.com" class="btn btn-outline-primary m-1">Correo</a>
+<a href="#" class="btn btn-outline-success m-1">WhatsApp</a>
+<a href="#" class="btn btn-outline-danger m-1">Facebook</a>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</section>
+
+</main>
+<!-- FIN BLOQUE DE CONTENIDO DINÁMICO ({% endblock %}) -->
+
+<!-- ============================
+     PARTIAL: partials/footer.html
+     {% include 'partials/footer.html' %}
+     ============================ -->
+<footer class="text-center">
+<p>© 2026 CSi - CoFre Sistemas Informáticos</p>
+</footer>
+<!-- FIN PARTIAL: partials/footer.html -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
