@@ -1,7 +1,8 @@
-flask
-flask-wtf
+Flask
+Flask-WTF
 email_validator
 psycopg2-binary
-flask-login
-werkzeug
+Flask-Login
+Werkzeug
 python-dotenv
+gunicorn
